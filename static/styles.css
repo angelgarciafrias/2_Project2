@@ -1,0 +1,36 @@
+h1 {
+    color:black;
+    text-align: center;
+    padding: 20px;
+}
+
+h4 {
+    text-align: center;
+}
+
+body {
+    background-color: lightcyan;
+}
+
+div {
+    margin: auto;
+    }
+
+col {
+    border: black;
+}
+
+.centered {
+    display: flex;
+    justify-content: center;
+}
+
+.right {
+    float: right;
+    padding-top: 10px;
+}
+
+button {
+    margin: auto;
+    padding: 20px;
+}

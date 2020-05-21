@@ -1,9 +1,25 @@
-<html>
-    <head>
-        <script src="static/index.js"></script>
-    </head>
-    <body>
-        <h1 id="counter">0</h1>
-        <button>Click Here!</button>
-    </body>
-</html>
+{% extends "layout.html" %}
+
+{% block title %}
+    <script src="static/index.js"></script>
+    <title>Angel</title>
+{% endblock %}
+
+{% block heading %}
+    <h1>Flack</h1>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h4>Welcome <p style="display:inline" id="registered_username"></p>!</h4>
+    <a href="{{ url_for('home') }}" class="btn btn-link centered">Click to enter with this username</a>
+    <hr>
+    <h4>Or enter another username:</h4>
+    <div class="form-group">
+        <form id="form" class="centered">
+            <input id="username" autocomplete="off" autofocus placeholder="Username" type="text">
+            <input id="submit" type="submit">
+        </form>
+    </div>
+</div>
+{% endblock %}
