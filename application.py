@@ -11,6 +11,10 @@ socketio = SocketIO(app)
 votes = {"yes": 0, "no": 0, "maybe": 0}
 chats = {"groups": 0, "private": 0}
 
+@app.route("/")
+def index():
+    return render_template("home.html")
+
 @app.route("/register/")
 def register():
     return render_template("register.html")
