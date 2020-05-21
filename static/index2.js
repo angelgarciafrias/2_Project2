@@ -48,8 +48,8 @@ document.addEventListener('DOMContentLoaded', () => {
     socket.on('update messages', data => {
         const li = document.createElement('li');
         let timestamp = new Date;
-        timestamp = timestamp.toLocaleTimeString();
-        li.innerHTML = ` ${timestamp} ${localStorage.getItem('registered_username')} ${data.selection}`;
+        timestamp = timestamp.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        li.innerHTML = ` ${timestamp} [${localStorage.getItem('registered_username')}]: ${data.selection}`;
         document.querySelector('#message_list').append(li);
     });
 
