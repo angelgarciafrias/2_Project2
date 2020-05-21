@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    <title>Angel</title>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+    
+            // Enable button only if there is text in the input field (otherwise is disabled)
+            document.querySelector('#submit').disabled = true;
+            document.querySelector('#username').onkeyup = () => {
+                if (document.querySelector('#username').value.length > 0)
+                    document.querySelector('#submit').disabled = false;
+                else
+                    document.querySelector('#submit').disabled = true;
+            };
+            // Update username value from input
+            document.querySelector('#form').onsubmit = () => {
+                const username = document.querySelector('#username').value;
+                localStorage.setItem('registered_username', username);
+            };
+            
+        });
+    </script>
+{% endblock %}
+
+{% block heading %}
+    <h1>Flack</h1>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h4>Enter a new username:</h4>
+    <div class="form-group">
+        <form id="form" class="centered" action="/home">
+            <input id="username" autocomplete="off" autofocus placeholder="Username" type="text">
+            <input id="submit" type="submit">
+        </form>
+    </div>
+</div>
+{% endblock %}
+

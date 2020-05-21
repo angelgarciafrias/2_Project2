@@ -1,7 +1,6 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    <script src="static/index.js"></script>
     <title>Angel</title>
 {% endblock %}
 
@@ -14,12 +13,7 @@
     <h4>Welcome <p style="display:inline" id="registered_username"></p>!</h4>
     <a href="{{ url_for('home') }}" class="btn btn-link centered">Click to enter with this username</a>
     <hr>
-    <h4>Or enter another username:</h4>
-    <div class="form-group">
-        <form id="form" class="centered">
-            <input id="username" autocomplete="off" autofocus placeholder="Username" type="text">
-            <input id="submit" type="submit">
-        </form>
-    </div>
+    <a href="{{ url_for('register') }}" class="btn btn-link centered">Log out and register with another username</a>
+    <hr>
 </div>
 {% endblock %}
