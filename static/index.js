@@ -23,6 +23,5 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('#form').onsubmit = () => {
         const username = document.querySelector('#username').value;
         localStorage.setItem('registered_username', username);
-        var username_global = localStorage.getItem('registered_username');
     };
 });

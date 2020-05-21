@@ -1,13 +1,15 @@
 import os
 
 from flask import Flask,render_template, request
-from flask_socketio import SocketIO, emit
+from flask_socketio import SocketIO, emit, send, join_room, leave_room
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 socketio = SocketIO(app)
 
+
 votes = {"yes": 0, "no": 0, "maybe": 0}
+chats = {"groups": 0, "private": 0}
 
 @app.route("/")
 def index():
@@ -17,8 +19,7 @@ def index():
 def home():
     return render_template("home.html",votes=votes)
 
-@socketio.on("submit vote")
+@socketio.on("send message")
 def vote(data):
     selection = data["selection"]
-    votes[selection] += 1
-    emit("vote totals", votes, broadcast=True)
+    emit("update messages", {"selection": selection}, broadcast=True)

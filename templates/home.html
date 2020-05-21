@@ -12,27 +12,24 @@
 
 {% block body %}
 <div class="container">
-    <h4>Welcome <p> {{username_global}} </p>!</h4>
+    <h4>Welcome <p style="display:inline" id="registered_username"></p>!</h4>
     <hr>
 </div>
 <div class="container">
-    <h4>Create new channel:</h4>
+    <h4>Messages:</h4>
     <div class="form-group">
         <form id="form2" class="centered">
-            <input id="channel" autocomplete="off" autofocus placeholder="Name of the channel" type="text">
+            <input id="message" autocomplete="off" autofocus placeholder="Type your message..." type="text">
             <input id="submit2" type="submit">
         </form>
     </div>
     <div class="row justify-content-center">
         <div class="col">
-            <ul id="channels">
+            <ul id="messages">
             </ul>
         </div>
     </div>
-
-    <div>Yes Votes: <span id="yes">{{ votes["yes"] }}</span></div>
-    <div>No Votes: <span id="no">{{ votes["no"] }}</span></div>
-    <div>Maybe Votes: <span id="maybe">{{ votes["maybe"] }}<span></div>
+    <ul id="message_list">
     <hr>
     <button data-vote="yes">Yes</button>
     <button data-vote="no">No</button>
