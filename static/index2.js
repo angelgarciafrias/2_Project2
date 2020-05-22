@@ -1,32 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // get username
+    // Get username
     document.querySelector('#registered_username').innerHTML = localStorage.getItem('registered_username');
 
-    // Home function
-    // Enable button only if there is text in the input field (otherwise is disabled)
+    // Allow typing in message box
     document.querySelector('#submit2').disabled = true;
-    document.querySelector('#message').onkeyup = () => {
-        if (document.querySelector('#message').value.length > 0)
+    document.querySelector('#text').onkeyup = () => {
+        if (document.querySelector('#text').value.length > 0)
             document.querySelector('#submit2').disabled = false;
         else
             document.querySelector('#submit2').disabled = true;
-    };
-
-    // Update username value from input
-    document.querySelector('#form2').onsubmit = () => {
-        const li = document.createElement('li');
-        li.innerHTML = document.querySelector('#message').value;
-
-        // Add new item to task list
-        document.querySelector('#messages').append(li);
-
-        // Clear input field and disable button again
-        document.querySelector('#message').value = '';
-        document.querySelector('#submit2').disabled = true;
-
-        // Stop form from submitting
-        return false;
     };
 
     // Connect to websocket
@@ -35,21 +18,45 @@ document.addEventListener('DOMContentLoaded', () => {
     // When connected, configure buttons
     socket.on('connect', () => {
 
-        // Each button should emit a "submit vote" event
-        document.querySelectorAll('button').forEach(button => {
-            button.onclick = () => {
-                const selection = button.dataset.vote;
-                socket.emit('send message', {'selection': selection});
-            };
-        });
+        // Send message
+        document.querySelector('#form2').onsubmit = () => {
+            
+            // Get date
+            let timestamp = new Date;
+            timestamp = timestamp.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            
+            // Get message
+            let message = document.querySelector('#text').value
+
+            //Get usename
+            let username = localStorage.getItem('registered_username')
+
+            // Save timestamp, username and message
+            let newitemschat = [timestamp,username,message]
+            if (!localStorage.getItem('chat')) {
+                localStorage.setItem('chat', JSON.stringify([newitemschat]));
+            } else {
+                const itemschat = JSON.parse(localStorage.getItem('chat'))
+                itemschat.push(newitemschat)
+                localStorage.setItem('chat', JSON.stringify(itemschat))
+            }
+            
+            // Emit info to everyone
+            socket.emit('send message', timestamp, username, message);
+            
+            // Clear input field and disable button again
+            document.querySelector('#text').value = '';
+            document.querySelector('#submit2').disabled = true;
+
+            return false;
+        };
+
     });
 
-    // When a new vote is announced, add to the unordered list
-    socket.on('update messages', data => {
+    // Update messages in channel
+    socket.on('update message', data => {
         const li = document.createElement('li');
-        let timestamp = new Date;
-        timestamp = timestamp.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-        li.innerHTML = ` ${timestamp} [${localStorage.getItem('registered_username')}]: ${data.selection}`;
+        li.innerHTML = ` ${data.timestamp} [${data.username}]: ${data.message} `;
         document.querySelector('#message_list').append(li);
     });
 

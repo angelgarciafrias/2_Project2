@@ -1,7 +1,7 @@
 git clone https://github.com/angelgarciafrias/2_Project2.git
 
 git add -A
-git commit -m "Date showing"
+git commit -m "Messages 1"
 git push
 
 pip install -r requirements.txt
