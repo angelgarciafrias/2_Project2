@@ -6,8 +6,18 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('registered_username', "");
         window.location.replace('/register/');
     }
-    // Get value from local storage if there is any
+    // Get username from local storage if there is any
     if (localStorage.getItem('registered_username') != "") {
         document.querySelector('#registered_username').innerHTML = localStorage.getItem('registered_username');
     }
+
+    // Get chats from local storage
+    var stored_chat = JSON.parse(localStorage.getItem('chat'));
+
+    for (let index = 0; index < stored_chat.length; index++) {
+        const li = document.createElement('li');
+        li.innerHTML = ` ${stored_chat[index][0]} [${stored_chat[index][1]}]: ${stored_chat[index][2]} `;
+        document.querySelector('#message_list').append(li);
+    }
+
 });

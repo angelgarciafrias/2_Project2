@@ -8,12 +8,11 @@ app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 socketio = SocketIO(app)
 
 # votes = {"yes": 0, "no": 0, "maybe": 0}
-# chats = {"groups": 0, "private": 0}
-# 
+chats = [["timestamp","username","message"],["timestamp2","username2","message2"]]
 
 @app.route("/")
 def index():
-    return render_template("home.html")
+    return render_template("home.html",chats=chats,len=len(chats))
 
 @app.route("/register/")
 def register():
@@ -21,7 +20,7 @@ def register():
 
 @app.route("/home")
 def home():
-    return render_template("home.html")
+    return render_template("home.html",chats=chats,len=len(chats))
 
 @socketio.on("send message")
 def send_message(timestamp, username, message):

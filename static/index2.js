@@ -21,14 +21,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // Send message
         document.querySelector('#form2').onsubmit = () => {
             
-            // Get date
+            // Get date, message and username
             let timestamp = new Date;
             timestamp = timestamp.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-            
-            // Get message
             let message = document.querySelector('#text').value
-
-            //Get usename
             let username = localStorage.getItem('registered_username')
 
             // Save timestamp, username and message
@@ -59,5 +55,8 @@ document.addEventListener('DOMContentLoaded', () => {
         li.innerHTML = ` ${data.timestamp} [${data.username}]: ${data.message} `;
         document.querySelector('#message_list').append(li);
     });
+
+    var objDiv = document.getElementById("chat_box");
+    objDiv.scrollTop = objDiv.scrollHeight;
 
 });
