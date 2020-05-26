@@ -17,6 +17,15 @@ hr {
     background-color:gray;
 }
 
+a {
+    color: black;
+    vertical-align: middle;
+}
+
+li {
+    margin-bottom: 7px;
+  }
+
 col {
     border: black;
 }

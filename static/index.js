@@ -13,13 +13,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Get chats from local storage
     var stored_chat = JSON.parse(localStorage.getItem('chat'));
-
     for (let index = 0; index < stored_chat.length; index++) {
         const li = document.createElement('li');
         li.innerHTML = ` ${stored_chat[index][0]} [${stored_chat[index][1]}]: ${stored_chat[index][2]} `;
         document.querySelector('#message_list').append(li);
     }
 
+    // Automatic scroll down chat box
     var objDiv = document.getElementById("chat_box");
     objDiv.scrollTop = objDiv.scrollHeight;
 

@@ -20,15 +20,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Send message
         document.querySelector('#form2').onsubmit = () => {
-            
+
             // Get date, message and username
             let timestamp = new Date;
-            timestamp = timestamp.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            timestamp = timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             let message = document.querySelector('#text').value
             let username = localStorage.getItem('registered_username')
 
             // Save timestamp, username and message
-            let newitemschat = [timestamp,username,message]
+            let newitemschat = [timestamp, username, message]
             if (!localStorage.getItem('chat')) {
                 localStorage.setItem('chat', JSON.stringify([newitemschat]));
             } else {
@@ -36,17 +36,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 itemschat.push(newitemschat)
                 localStorage.setItem('chat', JSON.stringify(itemschat))
             }
-            
-            // Emit info to everyone
+
+            // Emit message to everyone
             socket.emit('send message', timestamp, username, message);
-            
+
             // Clear input field and disable button again
             document.querySelector('#text').value = '';
             document.querySelector('#submit2').disabled = true;
 
             return false;
         };
-
     });
 
     // Update messages in channel
@@ -55,10 +54,8 @@ document.addEventListener('DOMContentLoaded', () => {
         li.innerHTML = ` ${data.timestamp} [${data.username}]: ${data.message} `;
         document.querySelector('#message_list').append(li);
 
+        // Automatic scroll down chat box
         var objDiv = document.getElementById("chat_box");
         objDiv.scrollTop = objDiv.scrollHeight;
     });
-
-
-
 });
