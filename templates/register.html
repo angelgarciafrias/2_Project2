@@ -1,37 +1,36 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    <title>Register</title>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // clear username
-            localStorage.setItem('registered_username', "");
-            
-            // Enable button only if there is text in the input field (otherwise is disabled)
-            document.querySelector('#submit').disabled = true;
-            document.querySelector('#username').onkeyup = () => {
-                if (document.querySelector('#username').value.length > 0)
-                    document.querySelector('#submit').disabled = false;
-                else
-                    document.querySelector('#submit').disabled = true;
-            };
-            // Update username value from input
-            document.querySelector('#form').onsubmit = () => {
-                const username = document.querySelector('#username').value;
-                localStorage.setItem('registered_username', username);
-            };
-            
-        });
-    </script>
-{% endblock %}
+<title>Register</title>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // clear username
+        localStorage.setItem('registered_username', "");
 
-{% block heading %}
-    <h1>Flack</h1>
+        // Enable button only if there is text in the input field (otherwise is disabled)
+        document.querySelector('#submit').disabled = true;
+        document.querySelector('#username').onkeyup = () => {
+            if (document.querySelector('#username').value.length > 0)
+                document.querySelector('#submit').disabled = false;
+            else
+                document.querySelector('#submit').disabled = true;
+        };
+        // Update username value from input
+        document.querySelector('#form').onsubmit = () => {
+            const username = document.querySelector('#username').value;
+            localStorage.setItem('registered_username', username);
+        };
+
+    });
+</script>
 {% endblock %}
 
 {% block body %}
+</br></br>
+</br></br>
+</br></br>
 <div class="container">
-    <h4>Pleaser, enter a new username:</h4>
+    <h4>Pleaser, enter your username:</h4>
     <div class="form-group">
         <form id="form" class="centered" action="/home">
             <input id="username" autocomplete="off" autofocus placeholder="Username" type="text">
@@ -40,4 +39,3 @@
     </div>
 </div>
 {% endblock %}
-

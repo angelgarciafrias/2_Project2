@@ -20,4 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('#message_list').append(li);
     }
 
+    var objDiv = document.getElementById("chat_box");
+    objDiv.scrollTop = objDiv.scrollHeight;
+
 });

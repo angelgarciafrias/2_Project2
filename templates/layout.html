@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -9,7 +10,20 @@
 </head>
 
 <body>
-    {% block heading %}{% endblock %}
+    <nav class="navbar navbar-light fixed-top flex-md-nowrap p-0" style="background-color: #669be0;">
+        <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">
+            <img src="https://cdn1.iconfinder.com/data/icons/internet-28/48/5-512.png" width="30" height="30"
+                class="d-inline-block align-top" alt="">
+            Flack
+        </a>
+        <ul class="navbar-nav px-3">
+            <li class="nav-item text-nowrap">
+                <a href="{{ url_for('register') }}" class="btn centered">Log out</a>
+            </li>
+        </ul>
+    </nav>
+    </br></br>
     {% block body %}{% endblock %}
 </body>
+
 </html>

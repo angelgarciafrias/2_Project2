@@ -54,9 +54,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const li = document.createElement('li');
         li.innerHTML = ` ${data.timestamp} [${data.username}]: ${data.message} `;
         document.querySelector('#message_list').append(li);
+
+        var objDiv = document.getElementById("chat_box");
+        objDiv.scrollTop = objDiv.scrollHeight;
     });
 
-    var objDiv = document.getElementById("chat_box");
-    objDiv.scrollTop = objDiv.scrollHeight;
+
 
 });
