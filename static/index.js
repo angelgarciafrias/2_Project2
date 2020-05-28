@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('registered_username', "");
         window.location.replace('/register/');
     }
-    // Get username from local storage if there is any
+    // Get username from local storage
     if (localStorage.getItem('registered_username') != "") {
         document.querySelector('#registered_username').innerHTML = localStorage.getItem('registered_username');
     }
@@ -19,8 +19,25 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('#message_list').append(li);
     }
 
+    // Get channels from local storage
+    var stored_channel = JSON.parse(localStorage.getItem('channel'));
+    for (let index = 0; index < stored_channel.length; index++) {
+        const li = document.createElement('li');
+        li.innerHTML =` <li class="list-group-item list-group-item-action"> ${stored_channel[index]} </li>`;
+        document.querySelector('#channel-list').append(li);
+    }
+
+    // Line of old messages
+    const li2 = document.createElement('li');
+        li2.innerHTML = `-------------------------------------------Old messages------------------------------------------- `;
+        document.querySelector('#message_list').append(li2);
+
     // Automatic scroll down chat box
     var objDiv = document.getElementById("chat_box");
+    objDiv.scrollTop = objDiv.scrollHeight;
+
+    // Automatic scroll down chat box
+    var objDiv = document.getElementById("channel_box");
     objDiv.scrollTop = objDiv.scrollHeight;
 
 });

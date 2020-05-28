@@ -7,12 +7,9 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 socketio = SocketIO(app)
 
-# votes = {"yes": 0, "no": 0, "maybe": 0}
-chats = [["timestamp","username","message"],["timestamp2","username2","message2"]]
-
 @app.route("/")
 def index():
-    return render_template("home.html",chats=chats,len=len(chats))
+    return render_template("home.html")
 
 @app.route("/register/")
 def register():
@@ -20,9 +17,12 @@ def register():
 
 @app.route("/home")
 def home():
-    return render_template("home.html",chats=chats,len=len(chats))
+    return render_template("home.html")
 
 @socketio.on("send message")
 def send_message(timestamp, username, message):
-    # channelchat.append({"timestamp": timestamp,"username": username, "message": message})
     emit("update message", {"timestamp": timestamp,"username": username, "message": message}, broadcast=True)
+
+@socketio.on("create channel")
+def create_channel(channel):
+    emit("update channel", {"channel": channel}, broadcast=True)

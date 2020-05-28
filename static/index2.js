@@ -11,6 +11,13 @@ document.addEventListener('DOMContentLoaded', () => {
         else
             document.querySelector('#submit2').disabled = true;
     };
+    document.querySelector('#submit3').disabled = true;
+    document.querySelector('#new-channel').onkeyup = () => {
+        if (document.querySelector('#new-channel').value.length > 0)
+            document.querySelector('#submit3').disabled = false;
+        else
+            document.querySelector('#submit3').disabled = true;
+    };
 
     // Connect to websocket
     var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
@@ -46,9 +53,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
             return false;
         };
+
+        // Create channel
+        document.querySelector('#form3').onsubmit = () => {
+
+            // Get channel
+            let channel = document.querySelector('#new-channel').value
+
+            // Save timestamp, username and message
+            let newchannel = [channel]
+            if (!localStorage.getItem('channel')) {
+                localStorage.setItem('channel', JSON.stringify([newchannel]));
+            } else {
+                const itemschanel = JSON.parse(localStorage.getItem('channel'))
+                itemschanel.push(newchannel)
+                localStorage.setItem('channel', JSON.stringify(itemschanel))
+            }
+
+            // Emit channel to everyone
+            socket.emit('create channel', channel);
+
+            // Clear input field and disable button again
+            document.querySelector('#new-channel').value = '';
+            document.querySelector('#submit3').disabled = true;
+
+            return false;
+        };
     });
 
-    // Update messages in channel
+    // Update messages
     socket.on('update message', data => {
         const li = document.createElement('li');
         li.innerHTML = ` ${data.timestamp} [${data.username}]: ${data.message} `;
@@ -56,6 +89,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Automatic scroll down chat box
         var objDiv = document.getElementById("chat_box");
+        objDiv.scrollTop = objDiv.scrollHeight;
+    });
+
+    // Update channels
+    socket.on('update channel', data => {
+        const li = document.createElement('li');
+        li.innerHTML += '<li class="list-group-item list-group-item-action">' + data.channel + '</li>';
+        document.querySelector('#channel-list').append(li);
+
+        // Automatic scroll down chat box
+        var objDiv = document.getElementById("channel_box");
         objDiv.scrollTop = objDiv.scrollHeight;
     });
 });
