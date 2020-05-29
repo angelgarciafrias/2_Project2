@@ -25,9 +25,27 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         var stored_channel = JSON.parse(localStorage.getItem('channel'));
         for (let index = 0; index < stored_channel.length; index++) {
-            const li = document.createElement('li');
-            li.innerHTML =` <li class="list-group-item list-group-item-action"> ${stored_channel[index]} </li>`;
-            document.querySelector('#channel-list').append(li);
+
+                var text = stored_channel[index];
+                var name = 'RadioInputName'; // + (index + 1);
+                var id = 'ID' + index;
+              
+                var row = document.createElement('div');
+                
+                var radioBut = document.createElement('input');
+                radioBut.setAttribute('type', 'radio');
+                radioBut.setAttribute('name', name);
+                radioBut.setAttribute('id', id);
+                radioBut.setAttribute('value', text);
+                row.appendChild(radioBut);
+                
+                var label = document.createElement('label');
+                label.setAttribute('for', id);
+                label.className = "list-group-item";
+                label.innerHTML = text;
+                row.appendChild(label);
+
+                document.querySelector('#channel-list').append(row);
         }
     }
     

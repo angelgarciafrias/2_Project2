@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 localStorage.setItem('chat', JSON.stringify([newitemschat]));
             } else {
                 var stored_chat = JSON.parse(localStorage.getItem('chat'));
-                if (stored_chat.length > 6 ) {
+                if (stored_chat.length > 100 ) {
                     stored_chat.shift();
                 }
                 stored_chat.push(newitemschat)
@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 const itemschanel = JSON.parse(localStorage.getItem('channel'))
                 if (Object.values(itemschanel).includes(channel)) {
-                    alert("Please, select a different name")
+                    alert("Please, select a different name for your channel")
                     document.querySelector('#new-channel').value = '';
                     document.querySelector('#submit3').disabled = true;
                     return false;
@@ -102,9 +102,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Update channels
     socket.on('update channel', data => {
-        const li = document.createElement('li');
-        li.innerHTML += '<li class="list-group-item list-group-item-action">' + data.channel + '</li>';
-        document.querySelector('#channel-list').append(li);
+        var length_channel = localStorage.getItem('channel').length
+        var text = data.channel;
+        var name = 'RadioInputName'; // + (index + 1);
+        var id = 'ID' + length_channel + 1;
+      
+        var row = document.createElement('div');
+
+        var radioBut = document.createElement('input');
+        radioBut.setAttribute('type', 'radio');
+        radioBut.setAttribute('name', name);
+        radioBut.setAttribute('id', id);
+        radioBut.setAttribute('value', name);
+        row.appendChild(radioBut);
+      
+        var label = document.createElement('label');
+        label.setAttribute('for', id);
+        label.className = "list-group-item";
+        label.innerHTML = text;
+        row.appendChild(label);
+
+        document.querySelector('#channel-list').append(row);
+
+        
 
         // Automatic scroll down chat box
         var objDiv = document.getElementById("channel_box");
