@@ -36,12 +36,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Save timestamp, username and message
             let newitemschat = [timestamp, username, message]
+
             if (!localStorage.getItem('chat')) {
                 localStorage.setItem('chat', JSON.stringify([newitemschat]));
             } else {
-                const itemschat = JSON.parse(localStorage.getItem('chat'))
-                itemschat.push(newitemschat)
-                localStorage.setItem('chat', JSON.stringify(itemschat))
+                var stored_chat = JSON.parse(localStorage.getItem('chat'));
+                if (stored_chat.length > 6 ) {
+                    stored_chat.shift();
+                }
+                stored_chat.push(newitemschat)
+                localStorage.setItem('chat', JSON.stringify(stored_chat))
             }
 
             // Emit message to everyone
@@ -60,13 +64,17 @@ document.addEventListener('DOMContentLoaded', () => {
             // Get channel
             let channel = document.querySelector('#new-channel').value
 
-            // Save timestamp, username and message
-            let newchannel = [channel]
             if (!localStorage.getItem('channel')) {
-                localStorage.setItem('channel', JSON.stringify([newchannel]));
+                localStorage.setItem('channel', JSON.stringify([channel]));
             } else {
                 const itemschanel = JSON.parse(localStorage.getItem('channel'))
-                itemschanel.push(newchannel)
+                if (Object.values(itemschanel).includes(channel)) {
+                    alert("Please, select a different name")
+                    document.querySelector('#new-channel').value = '';
+                    document.querySelector('#submit3').disabled = true;
+                    return false;
+                }
+                itemschanel.push(channel)
                 localStorage.setItem('channel', JSON.stringify(itemschanel))
             }
 

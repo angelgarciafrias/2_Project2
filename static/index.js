@@ -20,13 +20,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Get channels from local storage
-    var stored_channel = JSON.parse(localStorage.getItem('channel'));
-    for (let index = 0; index < stored_channel.length; index++) {
-        const li = document.createElement('li');
-        li.innerHTML =` <li class="list-group-item list-group-item-action"> ${stored_channel[index]} </li>`;
-        document.querySelector('#channel-list').append(li);
+    if (!localStorage.getItem('channel')) {
+        localStorage.setItem('channel', "");
+    } else {
+        var stored_channel = JSON.parse(localStorage.getItem('channel'));
+        for (let index = 0; index < stored_channel.length; index++) {
+            const li = document.createElement('li');
+            li.innerHTML =` <li class="list-group-item list-group-item-action"> ${stored_channel[index]} </li>`;
+            document.querySelector('#channel-list').append(li);
+        }
     }
-
+    
     // Line of old messages
     const li2 = document.createElement('li');
         li2.innerHTML = `-------------------------------------------Old messages------------------------------------------- `;
@@ -36,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
     var objDiv = document.getElementById("chat_box");
     objDiv.scrollTop = objDiv.scrollHeight;
 
-    // Automatic scroll down chat box
+    // Automatic scroll down channel box
     var objDiv = document.getElementById("channel_box");
     objDiv.scrollTop = objDiv.scrollHeight;
 
