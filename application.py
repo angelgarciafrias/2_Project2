@@ -6,6 +6,7 @@ from flask_socketio import SocketIO, emit
 
 app = Flask(__name__)
 app.config["SESSION_PERMANET"] = True
+app.config["SECRET_KEY"] = "my secret key"
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
@@ -38,11 +39,19 @@ def register():
 def logout():
     try:
         users_list.remove(session['username'])
-    except ValueError:
+    except:
         pass
 
     session.clear()
     return redirect("/")
+
+@app.route("/channel//<string:channel>", methods=["GET", "POST"])
+def channel(channel):
+
+    if channel in channel_list:
+        return render_template("index.html",channel=channel_list,users_list=users_list,current_channel=channel)
+    else:
+        return render_template("error.html", message="Not a valid channel.")
 
 @socketio.on("send message")
 def send_message(timestamp, username, message):

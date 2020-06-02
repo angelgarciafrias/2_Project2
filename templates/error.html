@@ -2,11 +2,6 @@
 
 {% block title %}
 <title>Don't panic!</title>
-<script>
-    function goBack() {
-        window.history.back();
-    }
-</script>
 
 {% endblock %}
 
@@ -19,8 +14,8 @@
     <hr>
     <h4>{{message}}</h4>
     <hr>
-    <div class="centered">
-        <button class="btn btn-success" onclick="goBack()"> Back to register</button>
-    </div>
+    <h4>
+        <a href="{{ url_for('index') }}" >Go back!</a>
+    </h4>
 </div>
 {% endblock %}
