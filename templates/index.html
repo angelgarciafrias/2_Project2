@@ -2,13 +2,42 @@
 
 {% block title %}
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+<script src="static/index.js"></script>
 <script src="static/index2.js"></script>
 <title>Flack</title>
+
+<script>
+    document.querySelector('#submit2').disabled = true;
+    document.querySelector('#text').onkeyup = () => {
+        if (document.querySelector('#text').value.length > 0)
+            document.querySelector('#submit2').disabled = false;
+        else
+            document.querySelector('#submit2').disabled = true;
+    };
+    document.querySelector('#submit3').disabled = true;
+    document.querySelector('#new-channel').onkeyup = () => {
+        if (document.querySelector('#new-channel').value.length > 0)
+            document.querySelector('#submit3').disabled = false;
+        else
+            document.querySelector('#submit3').disabled = true;
+    };
+
+    // Automatic scroll down chat box
+    var objDiv = document.getElementById("chat_box");
+    objDiv.scrollTop = objDiv.scrollHeight;
+
+    // Automatic scroll down channel box
+    var objDiv = document.getElementById("channel_box");
+    objDiv.scrollTop = objDiv.scrollHeight;
+</script>
 {% endblock %}
 
 {% block body %}
 <div class="container">
-    <h4>Welcome <p style="display:inline" id="registered_username"></p>!</h4>
+    <h4>Welcome {{session.username}}!</h4>
+    {% for x in users_list %}
+    {{x}}
+    {% endfor %}
     <hr>
     <div class="row">
         <div class="col col-lg-3">
@@ -16,7 +45,12 @@
                 Chats
             </h5>
             <div style="overflow-y: scroll; height: 360px; width: auto;" id="channel_box">
-                <div class="list-group" id="channel-list"></div>
+                <div class="list-group" id="channel-list">
+                    {% for x in channel %}
+                        <input type="radio" name="RadioInputName" id="ID{{ x }}" value="{{ x }}">
+                        <label for="ID{{ x }}" class="list-group-item">{{ x }}</label>
+                    {% endfor %}
+                </div>
             </div>
             <div class="form-group">
                 <form id="form3" class="centered">

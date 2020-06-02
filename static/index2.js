@@ -1,24 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // Get username
-    document.querySelector('#registered_username').innerHTML = localStorage.getItem('registered_username');
-
-    // Allow typing in message box
-    document.querySelector('#submit2').disabled = true;
-    document.querySelector('#text').onkeyup = () => {
-        if (document.querySelector('#text').value.length > 0)
-            document.querySelector('#submit2').disabled = false;
-        else
-            document.querySelector('#submit2').disabled = true;
-    };
-    document.querySelector('#submit3').disabled = true;
-    document.querySelector('#new-channel').onkeyup = () => {
-        if (document.querySelector('#new-channel').value.length > 0)
-            document.querySelector('#submit3').disabled = false;
-        else
-            document.querySelector('#submit3').disabled = true;
-    };
-
     // Connect to websocket
     var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
 
@@ -64,19 +45,19 @@ document.addEventListener('DOMContentLoaded', () => {
             // Get channel
             let channel = document.querySelector('#new-channel').value
 
-            if (!localStorage.getItem('channel')) {
-                localStorage.setItem('channel', JSON.stringify([channel]));
-            } else {
-                const itemschanel = JSON.parse(localStorage.getItem('channel'))
-                if (Object.values(itemschanel).includes(channel)) {
-                    alert("Please, select a different name for your channel")
-                    document.querySelector('#new-channel').value = '';
-                    document.querySelector('#submit3').disabled = true;
-                    return false;
-                }
-                itemschanel.push(channel)
-                localStorage.setItem('channel', JSON.stringify(itemschanel))
-            }
+            // if (!localStorage.getItem('channel')) {
+            //     localStorage.setItem('channel', JSON.stringify([channel]));
+            // } else {
+            //     const itemschanel = JSON.parse(localStorage.getItem('channel'))
+            //     if (Object.values(itemschanel).includes(channel)) {
+            //         alert("Please, select a different name for your channel")
+            //         document.querySelector('#new-channel').value = '';
+            //         document.querySelector('#submit3').disabled = true;
+            //         return false;
+            //     }
+            //     itemschanel.push(channel)
+            //     localStorage.setItem('channel', JSON.stringify(itemschanel))
+            // }
 
             // Emit channel to everyone
             socket.emit('create channel', channel);
@@ -102,32 +83,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Update channels
     socket.on('update channel', data => {
-        var length_channel = localStorage.getItem('channel').length
+        
         var text = data.channel;
-        var name = 'RadioInputName'; // + (index + 1);
-        var id = 'ID' + length_channel + 1;
-      
-        var row = document.createElement('div');
+        var name = 'RadioInputName';
+        var id = 'ID' + text;
 
         var radioBut = document.createElement('input');
         radioBut.setAttribute('type', 'radio');
         radioBut.setAttribute('name', name);
         radioBut.setAttribute('id', id);
-        radioBut.setAttribute('value', name);
-        row.appendChild(radioBut);
-      
+        radioBut.setAttribute('value', text);
+        
         var label = document.createElement('label');
         label.setAttribute('for', id);
         label.className = "list-group-item";
         label.innerHTML = text;
-        row.appendChild(label);
-
-        document.querySelector('#channel-list').append(row);
-
         
+        document.querySelector('#channel-list').append(radioBut);
+        document.querySelector('#channel-list').append(label);
 
         // Automatic scroll down chat box
         var objDiv = document.getElementById("channel_box");
         objDiv.scrollTop = objDiv.scrollHeight;
+
+    });
+
+    // Update channels
+    socket.on('wrong channel', data => {
+        alert("Channel already created")
     });
 });

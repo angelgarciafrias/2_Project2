@@ -4,8 +4,6 @@
 <title>Register</title>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        // clear username
-        localStorage.setItem('registered_username', "");
 
         // Enable button only if there is text in the input field (otherwise is disabled)
         document.querySelector('#submit').disabled = true;
@@ -15,12 +13,6 @@
             else
                 document.querySelector('#submit').disabled = true;
         };
-        // Update username value from input
-        document.querySelector('#form').onsubmit = () => {
-            const username = document.querySelector('#username').value;
-            localStorage.setItem('registered_username', username);
-        };
-
     });
 </script>
 {% endblock %}
@@ -31,9 +23,9 @@
 </br></br>
 <div class="container">
     <h4>Pleaser, enter your username:</h4>
-    <div class="form-group">
-        <form id="form" class="centered" action="/home">
-            <input id="username" autocomplete="off" autofocus placeholder="Username" type="text">
+    <div class="form-group centered">
+        <form action="{{ url_for('register') }}" method="POST">
+            <input id="username" name="username" autocomplete="off" autofocus placeholder="Username" type="text">
             <input id="submit" type="submit">
         </form>
     </div>

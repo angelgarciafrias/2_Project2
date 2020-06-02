@@ -12,7 +12,6 @@
         integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
         crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../static/styles.css?rnd=132">
-    <script src="static/index.js"></script>
     {% block title %}{% endblock %}
 </head>
 
@@ -25,7 +24,7 @@
         </a>
         <ul class="navbar-nav px-3">
             <li class="nav-item text-nowrap">
-                <a href="{{ url_for('register') }}" >Log out</a>
+                <a href="{{ url_for('logout') }}" >Log out</a>
             </li>
         </ul>
     </nav>
