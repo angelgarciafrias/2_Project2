@@ -1,7 +1,7 @@
 git clone https://github.com/angelgarciafrias/2_Project2.git
 
 git add -A
-git commit -m "radio button"
+git commit -m "Lists channels/messages"
 git push
 
 pip install -r requirements.txt

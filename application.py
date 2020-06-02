@@ -12,14 +12,16 @@ Session(app)
 
 socketio = SocketIO(app)
 
-users_list = []
+user_list = []
 channel_list = []
-chat_list = []
+chat_list = dict()
 
 @app.route("/")
 def index():
     if "username" in session:
-        return render_template("index.html",channel=channel_list,users_list=users_list)
+        # current_channel = request.form["RadioInputName"]
+        # current_channel = session.get("channel")
+        return render_template("index.html",channel=channel_list,user_list=user_list,chat_list=chat_list)
 
     return render_template("register.html")
 
@@ -27,9 +29,9 @@ def index():
 def register():
     if request.method == "POST":
       session["username"] = request.form.get("username")
-      if session["username"] in users_list:
+      if session["username"] in user_list:
           return render_template("error.html",message="Please, try with a different username")
-      users_list.append(session["username"])
+      user_list.append(session["username"])
       session.permanent = True
       return redirect(url_for('index'))
 
@@ -38,7 +40,7 @@ def register():
 @app.route("/logout/")
 def logout():
     try:
-        users_list.remove(session['username'])
+        user_list.remove(session['username'])
     except:
         pass
 
@@ -49,13 +51,15 @@ def logout():
 def channel(channel):
 
     if channel in channel_list:
-        return render_template("index.html",channel=channel_list,users_list=users_list,current_channel=channel)
+        return render_template("index.html",channel=channel_list,user_list=user_list,chat_list=chat_list[channel])
     else:
         return render_template("error.html", message="Not a valid channel.")
 
 @socketio.on("send message")
 def send_message(timestamp, username, message):
-    emit("update message", {"timestamp": timestamp,"username": username, "message": message}, broadcast=True)
+    channel = session.get("channel")
+    chat_list[channel].append([timestamp, session.get("username"), message])
+    emit("update message", {"timestamp": timestamp,"username": session.get("username"), "message": message}, broadcast=True)
 
 @socketio.on("create channel")
 def create_channel(channel):
@@ -63,4 +67,6 @@ def create_channel(channel):
         emit("wrong channel", {"channel": channel}, broadcast=False)
     else:
         channel_list.append(channel)
+        chat_list[channel] = []
+        session["channel"] = channel
         emit("update channel", {"channel": channel}, broadcast=True)

@@ -1,31 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    document.querySelector('#submit2').disabled = true;
-    document.querySelector('#text').onkeyup = () => {
-        if (document.querySelector('#text').value.length > 0)
-            document.querySelector('#submit2').disabled = false;
-        else
-            document.querySelector('#submit2').disabled = true;
-    };
-    document.querySelector('#submit3').disabled = true;
-    document.querySelector('#new-channel').onkeyup = () => {
-        if (document.querySelector('#new-channel').value.length > 0)
-            document.querySelector('#submit3').disabled = false;
-        else
-            document.querySelector('#submit3').disabled = true;
-
-    // Automatic scroll down chat box
-    var objDiv = document.getElementById("chat_box");
-    objDiv.scrollTop = objDiv.scrollHeight;
-
-    // Automatic scroll down channel box
-    var objDiv = document.getElementById("channel_box");
-    objDiv.scrollTop = objDiv.scrollHeight;
-    };
-
-
-
-
     // Connect to websocket
     var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
 
@@ -48,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 localStorage.setItem('chat', JSON.stringify([newitemschat]));
             } else {
                 var stored_chat = JSON.parse(localStorage.getItem('chat'));
-                if (stored_chat.length > 100 ) {
+                if (stored_chat.length > 100) {
                     stored_chat.shift();
                 }
                 stored_chat.push(newitemschat)
@@ -109,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Update channels
     socket.on('update channel', data => {
-        
+
         var text = data.channel;
         var name = 'RadioInputName';
         var id = 'ID' + text;
@@ -119,12 +93,12 @@ document.addEventListener('DOMContentLoaded', () => {
         radioBut.setAttribute('name', name);
         radioBut.setAttribute('id', id);
         radioBut.setAttribute('value', text);
-        
+
         var label = document.createElement('label');
         label.setAttribute('for', id);
         label.className = "list-group-item";
         label.innerHTML = text;
-        
+
         document.querySelector('#channel-list').append(radioBut);
         document.querySelector('#channel-list').append(label);
 

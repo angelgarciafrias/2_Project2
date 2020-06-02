@@ -11,20 +11,25 @@
 {% block body %}
 <div class="container">
     <h4>Welcome {{session.username}}!</h4>
-
-    {% for x in users_list %}
-    {{x}}
-    {% endfor %}
     <hr>
     <div class="row">
         <div class="col col-lg-3">
+
+            <div class="list-group" id="list-tab" role="tablist">
+                <a class="list-group-item list-group-item-action" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Home</a>
+                <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">Profile</a>
+                <a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages">Messages</a>
+                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">Settings</a>
+            </div>
+            
             <h5 class="centered">
-                Channel
+                List of channels
             </h5>
             <div style="overflow-y: scroll; height: 360px; width: auto;" id="channel_box">
                 <div class="list-group" id="channel-list">
                     {% for x in channel %}
                         <input type="radio" name="RadioInputName" id="ID{{ x }}" value="{{ x }}">
+                        <!-- onclick="window.location='http://127.0.0.1:5000/channel/{{x}}'" -->
                         <label for="ID{{ x }}" class="list-group-item">{{ x }}</label>
                     {% endfor %}
                 </div>
@@ -38,9 +43,20 @@
         </div>
         <div style="border-left:1px solid gray;margin:0 7.5px;"></div>
         <div class="col">
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show" id="list-home" role="tabpanel" aria-labelledby="list-home-list">1</div>
+                <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">2</div>
+                <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">3</div>
+                <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">4</div>
+            </div>
+
             <h5 class="centered">Messages</h5>
             <div style="overflow-y: scroll; height: 360px; width: auto;" id="chat_box">
-                <ul style="list-style: none" id="message_list"></ul>
+                <ul style="list-style: none" id="message_list">
+                    {% for x in chat_list %}
+                    <li>{{x[0]}} [{{x[1]}}]: {{x[2]}}</li>
+                    {% endfor %}
+                </ul>
             </div>
             <div class="form-group">
                 <form id="form2" class="centered">
