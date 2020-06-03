@@ -14,23 +14,14 @@
     <hr>
     <div class="row">
         <div class="col col-lg-3">
-
-            <div class="list-group" id="list-tab" role="tablist">
-                <a class="list-group-item list-group-item-action" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Home</a>
-                <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">Profile</a>
-                <a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages">Messages</a>
-                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">Settings</a>
-            </div>
-            
             <h5 class="centered">
                 List of channels
             </h5>
             <div style="overflow-y: scroll; height: 360px; width: auto;" id="channel_box">
-                <div class="list-group" id="channel-list">
-                    {% for x in channel %}
-                        <input type="radio" name="RadioInputName" id="ID{{ x }}" value="{{ x }}">
-                        <!-- onclick="window.location='http://127.0.0.1:5000/channel/{{x}}'" -->
-                        <label for="ID{{ x }}" class="list-group-item">{{ x }}</label>
+                <div class="list-group" id="channel-list" role="tablist">
+                    {% for x in channel_list %}
+                    <a class="list-group-item list-group-item-action" id="list-{{ x }}-list" data-toggle="list" href="#list-{{ x }}"
+                    role="tab" aria-controls="{{ x }}"> {{ x }}</a>
                     {% endfor %}
                 </div>
             </div>
@@ -43,20 +34,19 @@
         </div>
         <div style="border-left:1px solid gray;margin:0 7.5px;"></div>
         <div class="col">
-            <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show" id="list-home" role="tabpanel" aria-labelledby="list-home-list">1</div>
-                <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">2</div>
-                <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">3</div>
-                <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">4</div>
-            </div>
-
             <h5 class="centered">Messages</h5>
             <div style="overflow-y: scroll; height: 360px; width: auto;" id="chat_box">
-                <ul style="list-style: none" id="message_list">
-                    {% for x in chat_list %}
-                    <li>{{x[0]}} [{{x[1]}}]: {{x[2]}}</li>
+                <div class="tab-content" id="channel_text">
+                    {% for x in channel_list %}
+                    <div class="tab-pane fade show" id="list-{{ x }}" role="tabpanel" aria-labelledby="list-{{ x }}-list">
+                        <ul style="list-style: none" id="message_list">
+                            {% for y in chat_list[x] %}
+                            <li>{{y[0]}} [{{y[1]}}]: {{y[2]}}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
                     {% endfor %}
-                </ul>
+                </div>
             </div>
             <div class="form-group">
                 <form id="form2" class="centered">

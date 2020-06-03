@@ -45,20 +45,6 @@ document.addEventListener('DOMContentLoaded', () => {
             // Get channel
             let channel = document.querySelector('#new-channel').value
 
-            // if (!localStorage.getItem('channel')) {
-            //     localStorage.setItem('channel', JSON.stringify([channel]));
-            // } else {
-            //     const itemschanel = JSON.parse(localStorage.getItem('channel'))
-            //     if (Object.values(itemschanel).includes(channel)) {
-            //         alert("Please, select a different name for your channel")
-            //         document.querySelector('#new-channel').value = '';
-            //         document.querySelector('#submit3').disabled = true;
-            //         return false;
-            //     }
-            //     itemschanel.push(channel)
-            //     localStorage.setItem('channel', JSON.stringify(itemschanel))
-            // }
-
             // Emit channel to everyone
             socket.emit('create channel', channel);
 
@@ -85,27 +71,30 @@ document.addEventListener('DOMContentLoaded', () => {
     socket.on('update channel', data => {
 
         var text = data.channel;
-        var name = 'RadioInputName';
-        var id = 'ID' + text;
+        var channel_list = document.createElement('a');
+        channel_list.setAttribute('class', "list-group-item list-group-item-action");
+        channel_list.setAttribute('id', "list-" + text + "-list");
+        channel_list.setAttribute('data-toggle', "list");
+        channel_list.setAttribute('href', "#list-" + text );
+        channel_list.setAttribute('role', "tab");
+        channel_list.setAttribute('aria-controls', text);
+        channel_list.setAttribute('textNode', text);
+        var text_inside_a = document.createTextNode(text);
+        channel_list.appendChild(text_inside_a);
+        document.querySelector('#channel-list').append(channel_list);
 
-        var radioBut = document.createElement('input');
-        radioBut.setAttribute('type', 'radio');
-        radioBut.setAttribute('name', name);
-        radioBut.setAttribute('id', id);
-        radioBut.setAttribute('value', text);
-
-        var label = document.createElement('label');
-        label.setAttribute('for', id);
-        label.className = "list-group-item";
-        label.innerHTML = text;
-
-        document.querySelector('#channel-list').append(radioBut);
-        document.querySelector('#channel-list').append(label);
+        channel_text = document.createElement('div');
+        channel_text.setAttribute('class',"tab-pane fade");
+        channel_text.setAttribute('id',"list-" + text);
+        channel_text.setAttribute('role',"tabpanel");
+        channel_text.setAttribute('aria-labelledby',"list-" + text + "-list");
+        var text_inside_div = document.createTextNode(text);
+        channel_text.appendChild(text_inside_div);
+        document.querySelector('#channel_text').append(channel_text);
 
         // Automatic scroll down chat box
         var objDiv = document.getElementById("channel_box");
         objDiv.scrollTop = objDiv.scrollHeight;
-
     });
 
     // Update channels
