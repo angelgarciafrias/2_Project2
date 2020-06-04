@@ -25,7 +25,9 @@
 {% block body %}
 <div class="container">
     <h4>Welcome {{session.username}}!</h4>
-    <a href="{{ url_for('index') }}">Back to channels</a>
+    <div class="form-group" id="leave">
+        <a class="btn btn-light" href="{{ url_for('index') }}" role="button">Back to channels</a>
+    </div>
     <hr>
     <div class="row">
         <div class="col">
@@ -33,7 +35,7 @@
             <div style="overflow-y: scroll; height: 360px; width: auto;" id="chat_box">
                 <ul style="list-style: none" id="message_list">
                     {% for x in chat_list %}
-                    <li>{{x}}</li>
+                        <li>{{x[0]}} [{{x[1]}}]: {{x[2]}}</li>
                     {% endfor %}
                 </ul>
             </div>
@@ -42,6 +44,19 @@
                     <input id="text" class="form-control" autocomplete="off" placeholder="Type your message..." type="text" maxlength="75">
                     <input id="submit2" type="submit" value="Send">
                 </form>
+            </div>
+        </div>
+        <div style="border-left:1px solid gray;margin:0 7.5px;"></div>
+        <div class="col">
+            <h5 class="centered">
+                Active users:
+            </h5>
+            <div style="overflow-y: scroll; height: 398px; width: auto;">
+                <ul style="list-style: none">
+                    {% for x in active_users_list %}
+                    <li> {{x}} </li>
+                    {% endfor %}
+                </ul>
             </div>
         </div>
     </div>

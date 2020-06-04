@@ -25,6 +25,14 @@ document.addEventListener('DOMContentLoaded', () => {
             return false;
         };
 
+        // Leave channel
+        document.querySelector('#leave').addEventListener('click', () => {
+            socket.emit('leave');
+        })
+
+        // Enter channel
+        socket.emit('enter');
+
         // Update messages
         socket.on('update message', data => {
             const li = document.createElement('li');
@@ -37,4 +45,4 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
     })
-    })
+})

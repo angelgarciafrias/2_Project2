@@ -1,6 +1,11 @@
 {% extends "layout.html" %}
 
 {% block title %}
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
 <title>Don't panic!</title>
 
 {% endblock %}
@@ -10,12 +15,13 @@
 </br></br>
 </br></br>
 <div class="container">
+    <h4>Don't panic!</h4>
     <h4>Something went wront...</h4>
     <hr>
-    <h4>{{message}}</h4>
+    <h5 class="centered">{{message}}</h5>
     <hr>
     <h4>
-        <button onclick="window.location.href='/'">Go back</button>
+        <button class="btn btn-ligth" onclick="goBack()">Go back</button>
 
     </h4>
 </div>
