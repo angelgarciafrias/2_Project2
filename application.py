@@ -33,6 +33,7 @@ def register():
 def logout():
     try:
         user_list.remove(session['username'])
+        active_users_list.remove(session['username'])
     except:
         pass
 
@@ -52,8 +53,11 @@ def index():
             channel_list.append(new_channel)
             chat_list[new_channel] = [["","system","Welcome to the new channel"]]
             return redirect("/channel/" + new_channel)
+        
+        if session["username"] not in active_users_list:
+            active_users_list.append(session['username'])
 
-        return render_template("index.html",channel_list=channel_list,user_list=user_list)
+        return render_template("index.html",channel_list=channel_list,active_users_list=active_users_list)
 
     return render_template("register.html")
 
@@ -62,32 +66,9 @@ def channel(channel):
 
     if channel in channel_list:
         session["channel"] = channel
-        if session["username"] not in active_users_list:
-            active_users_list.append(session['username'])
-        return render_template("chat.html",active_users_list=active_users_list,chat_list=chat_list[channel])
+        return render_template("chat.html",chat_list=chat_list[channel])
     else:
         return render_template("error.html", message="Not a valid channel.")
-
-@socketio.on("leave")
-def leave_channel():
-
-    active_users_list.remove(session['username'])
-
-    emit("update message", {
-        "timestamp": "--------------", "username": session.get("username"),
-        "message": "Has left the channel--------------"
-        }, broadcast=True)
-
-@socketio.on("enter")
-def enter_channel():
-    
-    if session["username"] not in active_users_list:
-        active_users_list.append(session['username'])
-
-    emit("update message", {
-        "timestamp": "--------------", "username": session.get("username"),
-        "message": "Has entered the channel--------------"
-        }, broadcast=True)
 
 @socketio.on("send message")
 def send_message(timestamp, username, message):
@@ -98,3 +79,19 @@ def send_message(timestamp, username, message):
     chat_list[channel].append([timestamp, session.get("username"), message])
 
     emit("update message", {"timestamp": timestamp,"username": session.get("username"), "message": message}, broadcast=True)
+
+@socketio.on("enter")
+def enter_channel():
+
+    emit("update message", {
+        "timestamp": "--------------", "username": session.get("username"),
+        "message": "Has entered the channel--------------"
+        }, broadcast=True)
+
+@socketio.on("leave")
+def leave_channel():
+
+    emit("update message", {
+        "timestamp": "--------------", "username": session.get("username"),
+        "message": "Has left the channel--------------"
+        }, broadcast=True)

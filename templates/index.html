@@ -47,6 +47,19 @@
                 </form>
             </div>
         </div>
+        <div style="border-left:1px solid gray;margin:0 7.5px;"></div>
+        <div class="col">
+            <h5 class="centered">
+                Active users:
+            </h5>
+            <div style="overflow-y: scroll; height: 398px; width: auto;" id="user_box">
+                <ul style="list-style: none" id="user_list"></ul>
+                    {% for x in active_users_list %}
+                    <li> {{x}} </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
     </div>
     <hr>
 </div>

@@ -25,13 +25,14 @@ document.addEventListener('DOMContentLoaded', () => {
             return false;
         };
 
+        // Enter channel
+        socket.emit('enter');
+        
         // Leave channel
         document.querySelector('#leave').addEventListener('click', () => {
             socket.emit('leave');
         })
 
-        // Enter channel
-        socket.emit('enter');
 
         // Update messages
         socket.on('update message', data => {
