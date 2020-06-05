@@ -27,12 +27,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Enter channel
         socket.emit('enter');
-        
+
+        // Add active user
+        socket.on('add active user', data => {
+            const li = document.createElement('li');
+            li.innerHTML = ` ${data.username} `;
+            document.querySelector('#user_list').append(li);
+        });
+
         // Leave channel
         document.querySelector('#leave').addEventListener('click', () => {
             socket.emit('leave');
-        })
+        });
 
+        // Remove active user
+        socket.on('remove active user', data => {
+            const li = document.createElement('li');
+            li.innerHTML = ` ${data.username} `;
+            document.querySelector('#user_list').remove(li);
+        });
 
         // Update messages
         socket.on('update message', data => {
@@ -44,6 +57,5 @@ document.addEventListener('DOMContentLoaded', () => {
             var objDiv = document.getElementById("chat_box");
             objDiv.scrollTop = objDiv.scrollHeight;
         });
-
     })
 })
