@@ -12,8 +12,8 @@ Session(app)
 socketio = SocketIO(app)
 
 user_list = []
-active_user_list = dict()
 channel_list = []
+active_user_list = dict()
 chat_list = dict()
 
 @app.route("/register/", methods=["GET", "POST"])
@@ -63,36 +63,34 @@ def channel(channel):
 
     if channel in channel_list:
         session["channel"] = channel
-        if session.get("username") not in active_user_list[channel]:
-            active_user_list[channel].append(session.get("username"))
         return render_template("chat.html", chat_list=chat_list[channel],active_user_list=active_user_list[channel])
     else:
         return render_template("error.html", message="Not a valid channel.")
 
 @socketio.on("enter")
-def enter_channel(username):
+def enter_channel():
 
     channel = session.get("channel")
+    active_user_list[channel].append([session.get("username")])
     join_room(channel)
-    active_user_list[channel].append(session.get("username"))
 
     emit("add active user",
         {"username": session.get("username")},
         room=channel)
 
 @socketio.on("leave")
-def leave_channel(username):
+def leave_channel():
 
     channel = session.get("channel")
+    active_user_list[channel].append([session.get("username")])
     leave_room(channel)
-    active_user_list[channel].remove(session.get("username"))
 
     emit("remove active user",
         {"username": session.get("username")},
         room=channel)
 
 @socketio.on("send message")
-def send_message(timestamp, username, message):
+def send_message(timestamp, message):
 
     channel = session.get("channel")
     if len(chat_list[channel]) > 100:

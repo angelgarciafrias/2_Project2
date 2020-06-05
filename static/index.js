@@ -13,10 +13,9 @@ document.addEventListener('DOMContentLoaded', () => {
             let timestamp = new Date;
             timestamp = timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             let message = document.querySelector('#text').value
-            let username = localStorage.getItem('registered_username')
 
             // Emit message to everyone
-            socket.emit('send message', timestamp, username, message);
+            socket.emit('send message', timestamp, message);
 
             // Clear input field and disable button again
             document.querySelector('#text').value = '';
@@ -26,13 +25,15 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         // Enter channel
-        socket.emit('enter');
+        document.querySelector('#channel-list').addEventListener('click', () => {
+            socket.emit('enter');
+        });
 
         // Add active user
         socket.on('add active user', data => {
-            const li = document.createElement('li');
-            li.innerHTML = ` ${data.username} `;
-            document.querySelector('#user_list').append(li);
+            const li3 = document.createElement('li');
+            li3.innerHTML = ` ${data.username} `;
+            document.querySelector('#user_list').append(li3);
         });
 
         // Leave channel
@@ -42,9 +43,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Remove active user
         socket.on('remove active user', data => {
-            const li = document.createElement('li');
-            li.innerHTML = ` ${data.username} `;
-            document.querySelector('#user_list').remove(li);
+            const li2 = document.createElement('li');
+            li2.innerHTML = ` ${data.username} `;
+            document.querySelector('#user_list').remove(li2);
         });
 
         // Update messages

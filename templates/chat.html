@@ -52,9 +52,9 @@
                 Active users:
             </h5>
             <div style="overflow-y: scroll; height: 398px; width: auto;" id="user_box">
-                <ul style="list-style: none" id="user_list"></ul>
+                <ul style="list-style: none" id="user_list">
                     {% for x in active_users_list %}
-                    <li> {{x}} </li>
+                        <li> {{x}} </li>
                     {% endfor %}
                 </ul>
             </div>
