@@ -25,14 +25,13 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         // Enter channel
-        document.querySelector('#channel-list').addEventListener('click', () => {
-            socket.emit('enter');
-        });
+        socket.emit('enter');
 
         // Add active user
         socket.on('add active user', data => {
             const li3 = document.createElement('li');
             li3.innerHTML = ` ${data.username} `;
+            li3.setAttribute("id", data.username);
             document.querySelector('#user_list').append(li3);
         });
 
@@ -43,9 +42,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Remove active user
         socket.on('remove active user', data => {
-            const li2 = document.createElement('li');
-            li2.innerHTML = ` ${data.username} `;
-            document.querySelector('#user_list').remove(li2);
+            var elem = document.getElementById(data.username);
+            elem.parentNode.removeChild(elem);
         });
 
         // Update messages

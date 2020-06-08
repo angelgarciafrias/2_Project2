@@ -53,8 +53,8 @@
             </h5>
             <div style="overflow-y: scroll; height: 398px; width: auto;" id="user_box">
                 <ul style="list-style: none" id="user_list">
-                    {% for x in active_users_list %}
-                        <li> {{x}} </li>
+                    {% for x in active_user_list %}
+                        <li id="{{x}}"> {{x}} </li>
                     {% endfor %}
                 </ul>
             </div>

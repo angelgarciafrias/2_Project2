@@ -71,7 +71,10 @@ def channel(channel):
 def enter_channel():
 
     channel = session.get("channel")
-    active_user_list[channel].append([session.get("username")])
+    if session.get("username") in active_user_list[channel]:
+        pass
+    else:
+        active_user_list[channel].append(session.get("username"))
     join_room(channel)
 
     emit("add active user",
@@ -82,7 +85,7 @@ def enter_channel():
 def leave_channel():
 
     channel = session.get("channel")
-    active_user_list[channel].append([session.get("username")])
+    active_user_list[channel].remove(session.get("username"))
     leave_room(channel)
 
     emit("remove active user",
