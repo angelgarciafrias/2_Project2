@@ -24,14 +24,23 @@
 
 {% block body %}
 <div class="container">
-    <h4>Welcome {{session.username}}!</h4>
-    <div class="form-group" id="leave">
-        <a class="btn btn-light" href="{{ url_for('index') }}" role="button">Back to channels</a>
+    <div class="row">
+        <div class="col form-group" id="leave">
+            <a class="btn btn-secondary" href="{{ url_for('index') }}" role="button">&larr; Back</a>
+        </div>
+        <div class="col centered">
+            <h4>Welcome {{session.username}}!</h4>
+        </div>
+        <div class="col">
+        </div>
     </div>
     <hr>
     <div class="row">
         <div class="col">
-            <h6 class="centered">Messages in {{session.channel}}</h6>
+                <div class="col centered">
+                    <a class="btn btn-ligth" href="#" role="button">{{session.channel}}</a>
+                </div>
+            <hr>
             <div style="overflow-y: scroll; height: 360px; width: auto;" id="chat_box">
                 <ul style="list-style: none" id="message_list">
                     {% for x in chat_list %}
@@ -49,9 +58,10 @@
         <div style="border-left:1px solid gray;margin:0 7.5px;"></div>
         <div class="col col-lg-4">
             <h5 class="centered">
-                Active users:
+                <a class="btn btn-ligth" href="#" role="button">Active users</a>
             </h5>
-            <div style="overflow-y: scroll; height: 398px; width: auto;" id="user_box">
+            <hr>
+            <div style="overflow-y: scroll; height: 414px; width: auto;" id="user_box">
                 <ul style="list-style: none" id="user_list">
                     {% for x in active_user_list %}
                         <li id="{{x}}"> {{x}} </li>

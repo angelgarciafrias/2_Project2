@@ -103,3 +103,12 @@ def send_message(timestamp, message):
     emit("update message",
         {"timestamp": timestamp, "username": session.get("username"), "message": message},
         room=channel)
+
+@socketio.on("new channel")
+def new_channel(channel):
+    
+    channel_list.append(channel)
+
+    emit("update channel",
+        {"channel": channel},
+        broadcast = True)

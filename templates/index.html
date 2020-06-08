@@ -10,11 +10,10 @@
             else
                 document.querySelector('#submit').disabled = true;
         };
-
         // Automatic scroll down channel box
         var objDiv = document.getElementById("channel_box");
         objDiv.scrollTop = objDiv.scrollHeight;
-    });
+    })
 </script>
 
 <title>Flack</title>
@@ -41,8 +40,8 @@
             </div>
             <div class="form-group">
                 <form id="form" class="centered" method="POST">
-                    <input id="new-channel" name ="new-channel" class="form-control" autocomplete="off" placeholder="New channel..."
-                        type="text" maxlength="15">
+                    <input id="new-channel" name="new-channel" class="form-control" autocomplete="off"
+                        placeholder="New channel..." type="text" maxlength="15">
                     <input id="submit" type="submit" value="Create">
                 </form>
             </div>
